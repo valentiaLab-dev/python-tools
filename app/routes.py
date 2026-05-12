@@ -1,8 +1,8 @@
 from flask import render_template
-from flask import request
-from .services import convert_m4a_to_mp3, get_path, test2
+from flask import request, jsonify
+from services import convert_m4a_to_mp3, get_path, test2
 from app import app
-
+from cloudflare import s3_client
 
 @app.route('/')
 @app.route('/index')
@@ -12,15 +12,29 @@ def index():
 @app.route('/convert_to_mp3', methods=['POST'])
 def convert_to_mp3():
     input_path = request.form.get('input_path')
-    
-    print(f"tert")
-    
     # convert_m4a_to_mp3(input_path, output_path)
-    # test2()
 
 
-@app.route('/r2')
+@app.route('/r2', methods=['POST'])
 def r2():
-    return app.config["BUCKET_NAME"]
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        # Upload the file stream directly to R2
+        s3_client().upload_fileobj(
+            file,
+            app.config["BUCKET_NAME"],
+            file.filename,
+            ExtraArgs={'ContentType': file.content_type}
+        )
+        return jsonify({"message": f"Successfully uploaded {file.filename} to R2"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
