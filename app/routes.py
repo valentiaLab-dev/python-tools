@@ -4,7 +4,6 @@ from .services import convert_m4a_to_mp3, get_path, test2
 from app import app
 
 
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -14,10 +13,14 @@ def index():
 def convert_to_mp3():
     input_path = request.form.get('input_path')
     
-    (get_path())
+    print(f"tert")
     
     # convert_m4a_to_mp3(input_path, output_path)
     # test2()
 
+
+@app.route('/r2')
+def r2():
+    return app.config["BUCKET_NAME"]
 
 
