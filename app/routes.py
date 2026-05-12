@@ -1,19 +1,22 @@
 from flask import render_template
 from flask import request, jsonify
-from services import convert_m4a_to_mp3, get_path, test2
+from services import convert_files
 from app import app
 from cloudflare import s3_client
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    return render_template('index.html', title='Home', env=app.config["ENV"], dir=app.config["LOCAL_DIR"])
 
 @app.route('/convert_to_mp3', methods=['POST'])
 def convert_to_mp3():
-    input_path = request.form.get('input_path')
-    # convert_m4a_to_mp3(input_path, output_path)
-
+    # TODO: handle online conversion
+    # TODO: progress indicator
+    # TODO: do not exit page
+    # input_path = request.form.get('input_path')
+    convert_files()
+    return jsonify({"message": f"TEST"}), 200
 
 @app.route('/r2', methods=['POST'])
 def r2():

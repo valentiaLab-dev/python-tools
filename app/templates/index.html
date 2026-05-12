@@ -2,12 +2,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welcome!</h1>
-    <h2>Hi, these are my curated open source python tools. Enjoy!</h2>
+    <h1>ENV: {{ env }}</h1>
     <hr>
-    <h3>M4a to MP3 Converter</h3>
+    <h3>MP4 to MP3 Converter</h3>
     <form action="{{ url_for('convert_to_mp3') }}" method="POST">
-        <input type="file" name="input_path">
+        {# <input type="text" name="input_path" placeholder="/path/to/custom/dir" /> #}
+        <br>
+        <div>Default input path: {{ dir }}</div>
+        <div>Default output path: {{ dir }}/converts</div>
         <button type="submit">Submit</button>
     </form>
+    <sub></sub>
 {% endblock %}
