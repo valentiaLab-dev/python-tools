@@ -7,7 +7,12 @@ from cloudflare import s3_client
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home', env=app.config["ENV"], dir=app.config["LOCAL_DIR"])
+    return render_template('index.html', 
+                           title='Home', 
+                           env=app.config["ENV"], 
+                           dir=app.config["LOCAL_DIR"]+app.config["ROOT_DIR_NAME"],
+                           out=app.config["OUTPUT_DIR_NAME"]
+                           )
 
 @app.route('/convert_to_mp3', methods=['POST'])
 def convert_to_mp3():

@@ -9,8 +9,9 @@
         {# <input type="text" name="input_path" placeholder="/path/to/custom/dir" /> #}
         <br>
         <div>Default input path: {{ dir }}</div>
-        <div>Default output path: {{ dir }}/converts</div>
+        <div>Default output path: {{ dir + "/" + out }}</div>
         <button type="submit">Submit</button>
     </form>
+    <h3>YT-DL</h3>
     <sub></sub>
 {% endblock %}
